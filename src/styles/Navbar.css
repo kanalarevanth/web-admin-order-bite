@@ -1,0 +1,55 @@
+.custom-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+  z-index: 999;
+  padding: 0 20px;
+}
+.custom-navbar .container-fluid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.custom-navbar .navbar-brand {
+  font-weight: bold;
+  color: #333;
+  font-size: 24px;
+  text-align: center;
+  flex-grow: 1;
+}
+.custom-navbar .right-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.custom-navbar .user-name {
+  margin-right: 10px;
+  font-size: 16px;
+  color: #333;
+  display: inline-block;
+  text-align: center;
+  padding-top: 6px;
+}
+.custom-navbar .logout-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.custom-navbar .logout-icon {
+  font-size: 18px;
+  color: #333;
+}
+@media (max-width: 992px) {
+  .custom-navbar .navbar-brand {
+    font-size: 20px;
+  }
+  .custom-navbar .right-container {
+    display: none;
+  }
+}

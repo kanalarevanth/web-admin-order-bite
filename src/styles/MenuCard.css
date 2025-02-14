@@ -1,0 +1,77 @@
+.menu-card {
+  width: 250px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  margin-bottom: 20px;
+  cursor: pointer;
+  overflow: hidden; /* Ensures no overflow from content like the image */
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.menu-card-img {
+  width: 100%;
+  height: 200px; /* Standard height */
+  background-color: #f0f0f0; /* Light grey background for no image */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-card img {
+  width: 100%;
+  height: 200px; /* Fixed height for the image */
+  object-fit: cover; /* Ensures the image covers the area */
+  border-radius: 8px;
+}
+
+.menu-card h3 {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  font-weight: bold;
+  color: #333;
+}
+
+.menu-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.menu-card span {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #007bff;
+}
+
+.menu-card p:last-of-type {
+  font-size: 0.9rem;
+  color: #28a745;
+}
+
+.menu-card p:last-of-type.not-available {
+  color: #dc3545;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .menu-card {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .menu-card {
+    width: 100%;
+    padding: 10px;
+  }
+}
