@@ -1,4 +1,5 @@
 .menu-card {
+  position: relative;
   width: 250px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -10,65 +11,103 @@
     box-shadow 0.3s ease;
   margin-bottom: 20px;
   cursor: pointer;
-  overflow: hidden; /* Ensures no overflow from content like the image */
+  overflow: hidden;
 }
-
 .menu-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
-
+.icon-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+  z-index: 1;
+}
 .menu-card-img {
   width: 100%;
-  height: 200px; /* Standard height */
-  background-color: #f0f0f0; /* Light grey background for no image */
+  height: 200px;
+  background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 .menu-card img {
   width: 100%;
-  height: 200px; /* Fixed height for the image */
-  object-fit: cover; /* Ensures the image covers the area */
+  height: 200px;
+  object-fit: cover;
   border-radius: 8px;
 }
-
+.no-image-placeholder {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  color: #999;
+  font-size: 1rem;
+}
 .menu-card h3 {
   font-size: 1.2rem;
   margin: 10px 0;
   font-weight: bold;
   color: #333;
 }
-
 .menu-card p {
   font-size: 0.9rem;
   color: #666;
   margin-bottom: 10px;
 }
-
 .menu-card span {
   font-weight: bold;
   font-size: 1rem;
-  color: #007bff;
+  color: #f0f0f0;
 }
-
+.menu-card-price {
+  color: #333 !important;
+  font-weight: bold !important;
+  font-size: 1rem !important;
+}
 .menu-card p:last-of-type {
   font-size: 0.9rem;
   color: #28a745;
 }
-
 .menu-card p:last-of-type.not-available {
   color: #dc3545;
 }
-
-/* Responsive design */
+.edit-btn,
+.delete-btn {
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edit-btn {
+  background-color: #007bff;
+}
+.delete-btn {
+  background-color: #dc3545;
+}
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+.delete-btn:hover {
+  background-color: #c82333;
+}
+.material-icons-round {
+  font-size: 1.5rem;
+  vertical-align: middle;
+}
 @media screen and (max-width: 768px) {
   .menu-card {
     width: 200px;
   }
 }
-
 @media screen and (max-width: 480px) {
   .menu-card {
     width: 100%;
