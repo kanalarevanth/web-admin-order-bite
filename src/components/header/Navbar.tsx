@@ -1,10 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { logoutUser } from "../../utils/login";
 import "../../styles/Navbar.css";
 
 const Navbar: React.FC = () => {
   const { user, setUser, setToken, isAuthenticated } = useAuth();
+  const location = useLocation();
+  const isOnAddRecipePage = location.pathname === "/add-recipe";
 
   const logOut = async () => {
     try {
@@ -26,6 +28,11 @@ const Navbar: React.FC = () => {
         </NavLink>
         {isAuthenticated && (
           <div className="right-container">
+            {!isOnAddRecipePage && (
+              <NavLink className="btn add-recipe-btn" to="/add-recipe">
+                Add Recipe
+              </NavLink>
+            )}
             <h6 className="user-name">{user.firstName}</h6>
             <button
               className="btn logout-btn"

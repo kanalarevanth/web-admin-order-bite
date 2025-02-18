@@ -51,10 +51,6 @@ const MenuPage: React.FC = () => {
 
   return (
     <div className="menu-container">
-      <Link to="/add-recipe">
-        <button className="add-recipe-btn">Add Recipe</button>
-      </Link>
-
       <div className="category-section">
         {menuItems.map((category: any) => (
           <div className="category" key={category.category}>
