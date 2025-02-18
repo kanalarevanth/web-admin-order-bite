@@ -15,7 +15,7 @@ import { useParams } from "react-router-dom";
 
 const AddRecipePage: React.FC = () => {
   const { user } = useAuth();
-  const [data, setData] = useState<MenuItem>({
+  const formData = {
     name: "",
     description: "",
     price: 0,
@@ -23,7 +23,9 @@ const AddRecipePage: React.FC = () => {
     type: recipeTypes[0].value,
     availability: true,
     image: undefined,
-  });
+  };
+
+  const [data, setData] = useState<MenuItem>(formData);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const params = useParams();
@@ -86,7 +88,9 @@ const AddRecipePage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (recipeId) {
+    if (!recipeId) {
+      setData(formData);
+    } else {
       fetchRecipeData(recipeId);
     }
   }, [recipeId]);
