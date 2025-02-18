@@ -1,4 +1,4 @@
-import { getData, postData } from "../utils/api";
+import { getData, postData, putData } from "../utils/api";
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -64,6 +64,27 @@ export const addRecipe = async (restaurantId: string, data: FormData) => {
   try {
     const res = await postData({
       url: `${VITE_API_URL}/${restaurantId}/recipes`,
+      body: data,
+      multipart: true,
+    });
+    if (res?.status === "SUCCESS") {
+      return res;
+    }
+    throw new Error();
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+};
+
+export const editRecipe = async (
+  restaurantId: string,
+  recipeId: string,
+  data: FormData
+) => {
+  try {
+    const res = await putData({
+      url: `${VITE_API_URL}/${restaurantId}/recipes/${recipeId}`,
       body: data,
       multipart: true,
     });

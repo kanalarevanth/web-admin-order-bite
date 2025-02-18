@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { MenuItem } from "../types/type";
 import "../styles/MenuCard.css";
 
@@ -23,9 +24,10 @@ const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
       <div className="icon-container">
         {isHovered && (
           <>
-            <button className="edit-btn">
+            <NavLink to={`/edit-recipe/${item.id}`} className="edit-btn">
               <span className="material-icons-round">edit</span>
-            </button>
+            </NavLink>
+
             <button className="delete-btn">
               <span className="material-icons-round">delete</span>
             </button>
@@ -33,7 +35,7 @@ const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
         )}
       </div>
       <div className="menu-card-img">
-        {item.image ? (
+        {item?.image ? (
           <img src={`${VITE_IMAGE_API_URL}/${item.image}`} alt={item.name} />
         ) : (
           <div className="no-image-placeholder">No Image</div>

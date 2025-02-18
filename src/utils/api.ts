@@ -12,6 +12,7 @@ type PostInput = APIInput & {
   multipart?: boolean;
   body?: any;
 };
+type PutInput = PostInput;
 
 export const UpdatedAtHeader = "UPDATED-USER-AT";
 
@@ -101,6 +102,47 @@ export const postData = ({
 
     fetch(url + (queryString ? `?${queryString}` : ""), {
       method: "post",
+      headers: {
+        ...(multipart ? {} : { "content-type": ContentTypes.json }),
+        ...CommonHeaders,
+        ...(tokenData ? { Authorization: "Bearer " + tokenData } : {}),
+        ...(currentUserData
+          ? {
+              [UpdatedAtHeader]: new Date(
+                currentUserData?.updatedAt || ""
+              ).toISOString(),
+            }
+          : {}),
+      },
+      body: multipart ? body : JSON.stringify(body),
+    })
+      .then((res) => {
+        handleResHeaders(res);
+        handleRes(res, resolve, reject);
+      })
+      .catch((error) => {
+        console.error("API ERROR : ", error);
+        reject(error);
+      });
+  });
+};
+
+export const putData = ({
+  url,
+  body,
+  query = {},
+  multipart = false,
+}: PutInput): Promise<any> => {
+  const currentUserData: User | null = JSON.parse(
+    localStorage.getItem(localKeys.user) || "null"
+  );
+  const tokenData = localStorage.getItem(localKeys.token);
+
+  return new Promise((resolve, reject) => {
+    const queryString = new URLSearchParams(query).toString();
+
+    fetch(url + (queryString ? `?${queryString}` : ""), {
+      method: "put",
       headers: {
         ...(multipart ? {} : { "content-type": ContentTypes.json }),
         ...CommonHeaders,

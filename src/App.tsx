@@ -33,6 +33,7 @@ const AppRoutes: React.FC = () => {
           <>
             <Route path="/" element={<MenuPage />} />
             <Route path="/add-recipe" element={<AddRecipe />} />
+            <Route path="/edit-recipe/:recipeId" element={<AddRecipe />} />
           </>
         )}
       </Routes>
