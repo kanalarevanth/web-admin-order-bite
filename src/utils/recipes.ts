@@ -1,4 +1,4 @@
-import { getData, postData } from "../utils/api";
+import { getData, postData, putData, deleteData } from "../utils/api";
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -35,7 +35,7 @@ export const getRecipes = async (restaurantId: string, query: any = {}) => {
       url: `${VITE_API_URL}/${restaurantId}/recipes`,
       query,
     });
-    if (res?.data) {
+    if (res?.status === "SUCCESS" && res && res?.data?.length) {
       return res;
     }
     throw new Error();
@@ -66,6 +66,42 @@ export const addRecipe = async (restaurantId: string, data: FormData) => {
       url: `${VITE_API_URL}/${restaurantId}/recipes`,
       body: data,
       multipart: true,
+    });
+    if (res?.status === "SUCCESS") {
+      return res;
+    }
+    throw new Error();
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+};
+
+export const editRecipe = async (
+  restaurantId: string,
+  recipeId: string,
+  data: FormData
+) => {
+  try {
+    const res = await putData({
+      url: `${VITE_API_URL}/${restaurantId}/recipes/${recipeId}`,
+      body: data,
+      multipart: true,
+    });
+    if (res?.status === "SUCCESS") {
+      return res;
+    }
+    throw new Error();
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+};
+
+export const deleteRecipe = async (restaurantId: string, recipeId: string) => {
+  try {
+    const res = await deleteData({
+      url: `${VITE_API_URL}/${restaurantId}/recipes/${recipeId}`,
     });
     if (res?.status === "SUCCESS") {
       return res;

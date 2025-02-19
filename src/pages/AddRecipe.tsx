@@ -1,14 +1,21 @@
-import React, { useState } from "react";
-import { recipeTypes, categories, addRecipe } from "../utils/recipes";
+import React, { useState, useEffect } from "react";
+import {
+  recipeTypes,
+  categories,
+  addRecipe,
+  getRecipe,
+  editRecipe,
+} from "../utils/recipes";
 import { MenuItem } from "../types/type";
 import { useNavigate } from "react-router-dom";
 import "../styles/AddRecipe.css";
 import Loader from "../components/common/Loader";
 import { useAuth } from "../context/AuthContext";
+import { useParams } from "react-router-dom";
 
 const AddRecipePage: React.FC = () => {
   const { user } = useAuth();
-  const [data, setData] = useState<MenuItem>({
+  const formData = {
     name: "",
     description: "",
     price: 0,
@@ -16,9 +23,14 @@ const AddRecipePage: React.FC = () => {
     type: recipeTypes[0].value,
     availability: true,
     image: undefined,
-  });
+  };
+
+  const [data, setData] = useState<MenuItem>(formData);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const params = useParams();
+  const recipeId = params?.recipeId || "";
+  const restaurantId = user?.restaurant?.id || "";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,8 +57,10 @@ const AddRecipePage: React.FC = () => {
       if (data?.image) {
         formData.append("image", data?.image);
       }
-      const restaurantId = user?.restaurant?.id || "";
-      const res = await addRecipe(restaurantId, formData);
+
+      const res = recipeId
+        ? await editRecipe(restaurantId, recipeId, formData)
+        : await addRecipe(restaurantId, formData);
       if (res) {
         navigate("/");
       }
@@ -57,11 +71,35 @@ const AddRecipePage: React.FC = () => {
     }
   };
 
+  const fetchRecipeData = async (id: string) => {
+    try {
+      setLoading(true);
+      const recipeData = await getRecipe(restaurantId, id);
+      if (recipeData && recipeData?.data) {
+        setData({
+          ...recipeData.data,
+        });
+      }
+    } catch (error) {
+      console.error("Failed to fetch recipe data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!recipeId) {
+      setData(formData);
+    } else {
+      fetchRecipeData(recipeId);
+    }
+  }, [recipeId]);
+
   return (
     <div className="add-recipe-container">
       <div className="add-recipe-form">
         {loading && <Loader />}
-        <h2>Add New Recipe</h2>
+        <h2>{recipeId ? "Edit" : "Add New"} Recipe</h2>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -139,7 +177,13 @@ const AddRecipePage: React.FC = () => {
             />
           </div>
           <button type="submit" disabled={loading}>
-            {loading ? "Adding..." : "Add Recipe"}
+            {recipeId
+              ? loading
+                ? "Updating..."
+                : "Edit Recipe"
+              : loading
+                ? "Adding..."
+                : "Add Recipe"}
           </button>
         </form>
       </div>
