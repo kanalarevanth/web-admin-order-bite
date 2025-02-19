@@ -13,6 +13,7 @@ type PostInput = APIInput & {
   body?: any;
 };
 type PutInput = PostInput;
+type DeleteInput = GetInput;
 
 export const UpdatedAtHeader = "UPDATED-USER-AT";
 
@@ -156,6 +157,40 @@ export const putData = ({
           : {}),
       },
       body: multipart ? body : JSON.stringify(body),
+    })
+      .then((res) => {
+        handleResHeaders(res);
+        handleRes(res, resolve, reject);
+      })
+      .catch((error) => {
+        console.error("API ERROR : ", error);
+        reject(error);
+      });
+  });
+};
+
+export const deleteData = ({ url, query = {} }: DeleteInput): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const queryString = new URLSearchParams(query).toString();
+    const currentUserData: User | null = JSON.parse(
+      localStorage.getItem(localKeys.user) || "null"
+    );
+    const tokenData = localStorage.getItem(localKeys.token);
+
+    fetch(url + (queryString ? `?${queryString}` : ""), {
+      method: "delete",
+      headers: {
+        "content-type": ContentTypes.json,
+        ...CommonHeaders,
+        ...(tokenData ? { Authorization: "Bearer " + tokenData } : {}),
+        ...(currentUserData
+          ? {
+              [UpdatedAtHeader]: new Date(
+                currentUserData?.updatedAt || ""
+              ).toISOString(),
+            }
+          : {}),
+      },
     })
       .then((res) => {
         handleResHeaders(res);

@@ -7,9 +7,10 @@ const { VITE_IMAGE_API_URL } = import.meta.env;
 
 interface MenuCardProps {
   item: MenuItem;
+  onDelete: () => void;
 }
 
-const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
+const MenuCard: React.FC<MenuCardProps> = ({ item, onDelete }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => setIsHovered(true);
@@ -27,8 +28,7 @@ const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
             <NavLink to={`/edit-recipe/${item.id}`} className="edit-btn">
               <span className="material-icons-round">edit</span>
             </NavLink>
-
-            <button className="delete-btn">
+            <button className="delete-btn" onClick={onDelete}>
               <span className="material-icons-round">delete</span>
             </button>
           </>
